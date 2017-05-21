@@ -5,10 +5,11 @@ const ROOT_PATH = path.resolve(__dirname, '../');
 const NODE_ENV = process.env.NODE_ENV;
 
 module.exports = {
-  entry : './client/app/app',
+  entry : ['./client/app/app.js',],
   output : {
     filename : 'bundle.[hash].js',
-    path: `${ROOT_PATH}/dist/client`
+    path: `${ROOT_PATH}/dist/client`,
+    publicPath: '/'
   },
   module : {
     rules : [
@@ -68,9 +69,9 @@ module.exports = {
       }
     ]
   },
-  resolve : {
-    extensions : [ ' ', '.js' ]
-  },
+  // resolve : {
+  //   extensions : [ ' ', '.js' ]
+  // },
   plugins: [
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify(NODE_ENV)

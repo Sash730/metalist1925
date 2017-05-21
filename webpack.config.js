@@ -9,5 +9,5 @@ switch (process.env.NODE_ENV) {
   case 'dev':
   case 'development':
   default:
-    module.exports = require('./config/webpack.development');
+    module.exports = require('../config/webpack.development');
 }

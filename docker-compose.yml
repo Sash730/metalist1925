@@ -1,18 +1,61 @@
-web:
-  build: .
-  restart: always
-  ports:
-    - "80:8080"
-    - "465:465"
-  links:
-    - mongo
-  environment:
-    NODE_ENV: production
-  command: bash -c "node server"
+version: '2'
 
-mongo:
-  image: mongo
-  ports:
-    - "27018:27017"
-  volumes:
-    - ./mongo_data:/data/db
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+#    environment:
+#      - API_HOST=http://api:9000
+#      - DATA_HOST=http://data:9090
+    networks:
+      - metalist
+    links:
+      - web:web
+      - web1:web1
+    ports:
+      - "80:80"
+    volumes:
+      - "./docker/nginx:/usr/share/nginx/html:ro"
+
+  web:
+    build: .
+    restart: always
+    ports:
+      - "8080:8080"
+      - "465:465"
+    links:
+      - mongo
+    networks:
+      - metalist
+    environment:
+      NODE_ENV: production
+    command: bash -c "node server"
+
+  web1:
+    build: .
+    restart: always
+    ports:
+      - "9000:8080"
+      - "460:465"
+    links:
+      - mongo
+    networks:
+      - metalist
+    environment:
+      NODE_ENV: production
+    command: bash -c "node server"
+
+  mongo:
+    image: mongo
+    networks:
+      - metalist
+    ports:
+      - "27018:27017"
+    volumes:
+      - ./mongo_data:/data/db
+
+networks:
+  metalist:
+    driver: bridge

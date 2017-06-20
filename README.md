@@ -24,3 +24,7 @@
 ## Testing
 
 Running `npm test` will run the unit tests with mocha.
+
+#For garden:
+
+Running 'docker exec -it <container ID>'

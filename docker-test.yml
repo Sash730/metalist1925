@@ -1,0 +1,49 @@
+version: '2'
+
+services:
+  garden:
+    build: garden
+    container_name: garden
+    networks:
+      - metalist_test
+    volumes:
+      - "./garden:/garden"
+    command: bash -c "sleep 9000000000"
+
+  web:
+    build: .
+    restart: always
+    container_name: web
+    ports:
+      - "8080:8080"
+      - "465:465"
+    links:
+      - mongo
+    networks:
+      - metalist_test
+    environment:
+      NODE_ENV: production
+    command: bash -c "node server"
+
+  chrome:
+    image: selenium/standalone-chrome-debug:2.53.1
+    container_name: chrome
+    networks:
+      - metalist_test
+    ports:
+      - 4444:4444
+      - 5900:5900
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    networks:
+      - metalist_test
+    ports:
+      - "27018:27017"
+    volumes:
+      - ./mongo_data:/data/db
+
+networks:
+  metalist_test:
+     external: true

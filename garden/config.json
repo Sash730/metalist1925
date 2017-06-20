@@ -1,0 +1,11 @@
+{
+    "host": "http://localhost/",
+    "webdriver": {
+        "server_host": "chrome",
+        "browser": "chrome"
+    },
+    "fixtures-mongo": {
+        "uri": "mongodb://mongo:27017/metalisttickets",
+        "fixtures": "fixtures/mongo"
+    }
+}

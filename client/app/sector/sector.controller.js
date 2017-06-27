@@ -7,7 +7,7 @@ export default class SectorController {
       this.ticketsService = TicketsService;
       this.match = match;
       this.sector = sector;
-
+// console.log('this.sector', this.sector);
       this.reservedSeats = [];
       this.selectedSeats = [];
       this.tribuneName = $stateParams.tribune;
@@ -19,6 +19,7 @@ export default class SectorController {
       this.getPrice();
       this.getReservedSeats();
       this.getSelectedSeats();
+      this.preparedSectorSeats();
     }
 
   getPrice() {
@@ -31,7 +32,10 @@ export default class SectorController {
       sectorName = this.sector.name;
 
     return this.ticketsService.fetchReservedSeats(matchId, sectorName)
-      .then( seats => this.reservedSeats = seats );
+      .then( seats => {
+        this.reservedSeats = seats;
+        this.updateSeatsStatuses();
+      });
   }
 
   getSelectedSeats() {
@@ -89,6 +93,106 @@ export default class SectorController {
         });
     }
   }
+  ////////////////////
+
+  preparedSectorSeats() {
+    this.sector.rows = this.makeRowSeats();
+    console.log('this.sector rows seats', this.sector);
+    return this.sector.rows.forEach(row => {
+      return row.seats = this.makeSeatObject(row);
+    });
+  }
+
+  updateSeatsStatuses() {
+    this.sector.rows.forEach(row => {
+      return row.seats.forEach(seat => {
+        seat.isSelected = this.isSelectedSeat(seat.slug);
+        seat.isSold = this.isSoldSeat(seat.slug);
+
+        return seat;
+      });
+    });
+  }
+
+  makeRowSeats() {
+    return this.sector.rows.map(row => {
+      return {
+        name: row.name,
+        seats: this.makeArrayFromNumber(row.seats)
+      }
+    });
+  }
+
+  makeSeatObject(row) {
+    return row.seats.map(seat => {
+      return {
+        slug: 's' + this.sector.name + 'r' + row.name + 'st' + seat,
+        seat: seat,
+        isSelected: this.isSelectedSeat('s' + this.sector.name + 'r' + row.name + 'st' + seat),
+        isSold: this.isSoldSeat('s' + this.sector.name + 'r' + row.name + 'st' + seat)
+      }
+    });
+  }
+
+  isSelectedSeat(slug) {
+    //console.log('this.selectedSeats rows1', this.selectedSeats);
+    return !!this.selectedSeats.filter(seat => seat.slug === slug && seat.matchId === this.match.id).length;
+  }
+
+  isSoldSeat(slug) {
+    //console.log('this.reservedSeats rows1', this.reservedSeats);
+    return this.reservedSeats.includes(slug);
+  }
+
+  deleteSeatFromCart(slug) {
+    this.message = '';
+
+    //if ( checkSeat && this.reservedSeats.includes(slug) ) {
+      this.cartService.removeSeatFromCart(slug, this.match.id)
+        .then(() => {
+          console.log('remove seats');
+          this.getSelectedSeats();
+          this.getReservedSeats();
+          // this.updateSeatsStatuses();
+          console.log('this.sector rows2', this.sector);
+        });
+    //}
+
+    // if( !this.reservedSeats.includes(slug) ) {
+    //   this.cartService.addSeatToCart(slug, this.match.id)
+    //     .then(() => {
+    //       this.getReservedSeats();
+    //       this.getSelectedSeats();
+    //     })
+    //     .catch((err) => {
+    //       if (err.status === 409) {
+    //         this.message = 'Это место уже занято.';
+    //         this.getReservedSeats();
+    //       }
+    //     });
+    // }
+  }
+
+  addSeatToCart1(sectorName, rowName, slug) {
+    this.message = '';
+
+    this.cartService.addSeatToCart(slug, this.match.id)
+      .then(() => {
+        console.log('add seats');
+        this.getSelectedSeats();
+        this.getReservedSeats();
+        // this.updateSeatsStatuses();
+        console.log('this.sector rows1', this.sector);
+      })
+      .catch((err) => {
+        if (err.status === 409) {
+          this.message = 'Это место уже занято.';
+          this.getReservedSeats();
+        }
+      });
+  }
+
+  ///////////////
 
   getFirstUpperRow(sectorNumber) {
     let sectorDividers = {

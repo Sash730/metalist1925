@@ -3,8 +3,8 @@ node_modules
 .idea
 client/bower_components
 dist
-server/config/local.env.js
 npm-debug.log
 all.log
 .env
 mongo_data
+server/config/local.env.js

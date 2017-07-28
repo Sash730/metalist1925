@@ -1,0 +1,16 @@
+{
+  "name": "generator-garden",
+  "version": "0.1.0",
+  "description": "Test package.json",
+  "author": {
+    "name": "Garden User",
+    "email": "garden@awesome.com",
+    "url": ""
+  },
+  "license": "MIT",
+  "dependencies": {
+    "plus.garden": "^0.1.0",
+    "plus.garden.fixtures-mongo": "0.0.7",
+    "plus.garden.webdriver": "0.0.1"
+  }
+}

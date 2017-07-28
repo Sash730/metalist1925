@@ -1,15 +1,30 @@
-web:
-  build: .
-  restart: always
-  ports:
-    - "80:8080"
-    - "465:465"
-  links:
-    - mongo
-  env_file: .env
-  command: bash -c "node server"
+version: '2'
 
-mongo:
-  image: mongo
-  volumes:
-    - ./mongo_data:/data/db
+services:
+  web:
+    build: .
+    restart: always
+    container_name: web
+    ports:
+      - "8080:8080"
+      - "465:465"
+    links:
+      - mongo
+    networks:
+      - metalist
+    environment:
+      NODE_ENV: production
+    command: bash -c "node server"
+
+  mongo:
+    image: mongo
+    networks:
+      - metalist
+    ports:
+      - "27018:27017"
+    volumes:
+      - ./mongo_data:/data/db
+
+networks:
+  metalist:
+    driver: bridge

@@ -1,11 +1,10 @@
-# metalist-tickets v.2 [![CircleCI](https://circleci.com/gh/Sash730/metalist1925/tree/master.svg?style=svg)](https://circleci.com/gh/Sash730/metalist1925/tree/master)
+# metalist-tickets v.2
 ## Getting Started
 
 ### Prerequisites
 
 - [Git](https://git-scm.com/)
 - [Node.js and npm](nodejs.org) Node ^6.10.0, npm ^3.14.7
-- [MongoDB](https://www.mongodb.org/) - Keep a running daemon with `mongod`
 
 ### Developing
 

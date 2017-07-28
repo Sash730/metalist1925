@@ -17,7 +17,7 @@
     "watch": "npm run client:watch & npm run server:watch",
     "start": "node dist/server",
     "serve": "node dist/server & npm run client:watch",
-    "nodemon": "nodemon dist/server --watch dist/server",
+    "nodemon": "nodemon server --watch server",
     "lint": "jshint client/**/*.js server/**/*.js server/*.js",
     "pretest": "npm run server:build",
     "test": "NODE_ENV=test mocha dist/server/**/*.{spec,integration}.js --require mocha.conf.js",

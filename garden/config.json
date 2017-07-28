@@ -1,0 +1,16 @@
+{
+  "host": "http://api_nginx:80/",
+  "command": {
+    "functional_test": {
+      "rerun": "@rerun.txt"
+    }
+  },
+  "webdriver": {
+    "server_host": "chrome",
+    "browser": "chrome"
+  },
+  "fixtures-mongo": {
+    "uri": "mongodb://user:password@localhost:27017/dbname",
+    "fixtures": "fixtures/mongo"
+  }
+}

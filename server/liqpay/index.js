@@ -7,7 +7,7 @@ const apiEndpoint = 'https://www.liqpay.com/api/3/checkout';
 const apiVersion = '3';
 
 export function generatePaymentLink(params) {
-  params.public_key = publicKey;
+  params.***REMOVED*** = publicKey;
   params.version = apiVersion;
 
   let data = paramsToDataString(params);

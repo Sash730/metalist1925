@@ -1,11 +1,40 @@
-web:
-  ports:
-    - "9000:9000"
-    - "465:465"
-  volumes:
-    - ./dist:/app/dist
-  command: bash -c "npm run nodemon"
+version: '2'
 
-mongo:
-  ports:
-    - "27018:27017"
+services:
+  garden:
+    build: garden
+    container_name: metalist_garden
+    networks:
+      - metalist
+    volumes:
+      - "./garden:/garden"
+    command: bash -c "sleep 9000000000"
+
+  web:
+    ports:
+       - "9000:9000"
+       - "465:465"
+    command: bash -c "npm run nodemon"
+
+  chrome:
+    image: selenium/standalone-chrome-debug:2.53.1
+    container_name: metalist_chrome
+    networks:
+      - metalist
+    ports:
+      - 4448:4444
+      - 5700:5900
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    networks:
+      - metalist
+    ports:
+      - "27018:27017"
+    volumes:
+      - ./mongo_data:/data/db
+
+networks:
+  metalist:
+     external: true

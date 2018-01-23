@@ -44,7 +44,7 @@
     "angular-ui-router": "^0.3.2",
     "angular-validation-match": "^1.5.2",
     "angular-datepicker": "^1.0.5",
-    "bootstrap": "~3.1.1",
+    "bootstrap": "~4.0.0",
     "bootstrap-social": "~4.9.1",
     "bluebird": "^3.3.3",
     "body-parser": "^1.13.3",

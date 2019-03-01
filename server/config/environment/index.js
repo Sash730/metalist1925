@@ -63,8 +63,8 @@ let all = {
         from: 'noreply@examaple.com'
     },
     liqpay: {
-        publicKey: process.env.LIQPAY_PUBLIC_KEY || '***REMOVED***',
-        privateKey: process.env.LIQPAY_PRIVATE_KEY || '***REMOVED***',
+        publicKey: process.env.LIQPAY_PUBLIC_KEY || '',
+        privateKey: process.env.LIQPAY_PRIVATE_KEY || '',
         sandboxMode: process.env.LIQPAY_SANDBOX_MODE || 1,
         callbackUrl: (process.env.DOMAIN || '') + '/api/orders/liqpay-callback',
         redirectUrl: (process.env.DOMAIN || '') + '/api/orders/liqpay-redirect'
